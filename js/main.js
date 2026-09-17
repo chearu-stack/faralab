@@ -1,9 +1,8 @@
 (() => {
     const portfolioImages = [
-        { src: 'img/gallery/toyota-faralab-1.png', alt: 'Toyota FARALAB — работа 1' },
-        { src: 'img/gallery/toyota-faralab-2.png', alt: 'Toyota FARALAB — работа 2' },
-        { src: 'img/gallery/workshop-lab.jpg', alt: 'Мастерская FARALAB' },
-        { src: 'img/gallery/beam-stg.jpg', alt: 'Светотеневая граница' }
+        { src: 'img/gallery/gg_1.jpg', alt: 'FARALAB — выполненная работа 1' },
+        { src: 'img/gallery/gg_3.jpg', alt: 'FARALAB — выполненная работа 2' },
+        { src: 'img/gallery/gg_5.jpg', alt: 'FARALAB — выполненная работа 3' }
     ];
 
     const renderPortfolioGallery = () => {
@@ -19,7 +18,7 @@
             const image = document.createElement('img');
             image.src = src;
             image.alt = alt;
-            image.loading = 'lazy';
+            image.loading = 'eager';
 
             slide.appendChild(image);
             gallery.appendChild(slide);
