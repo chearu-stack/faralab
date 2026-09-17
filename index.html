@@ -6,6 +6,7 @@
     <title>FARALAB | Ремонт и тюнинг автооптики</title>
     <!-- Подключаем шрифты: строгий Montserrat для дизайна и Caveat для рукописного слогана -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
         /* ============================================
            Базовые настройки и переменные
@@ -57,6 +58,52 @@
             position: relative;
             z-index: 2;
             max-width: 800px;
+        }
+
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.42;
+            z-index: 0;
+        }
+
+        .gallery-section {
+            background-color: #0a0a0a;
+        }
+
+        .swiper {
+            width: 100%;
+            padding-bottom: 45px;
+        }
+
+        .swiper-slide {
+            height: 420px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--surface-color);
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: var(--accent-glow);
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--accent-glow);
+        }
+
+        .sticky-actions {
+            display: none;
         }
 
         .logo-text {
@@ -263,6 +310,34 @@
             .section-title {
                 font-size: 2rem;
             }
+            .swiper-slide {
+                height: 280px;
+            }
+            .sticky-actions {
+                display: flex;
+                position: fixed;
+                left: 12px;
+                right: 12px;
+                bottom: 12px;
+                z-index: 10;
+                gap: 10px;
+                padding: 10px;
+                background: rgba(18, 18, 18, 0.94);
+                border: 1px solid #333;
+                border-radius: 8px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.45);
+            }
+            .sticky-actions a {
+                flex: 1;
+                padding: 10px;
+                color: var(--text-main);
+                text-align: center;
+                text-decoration: none;
+                border: 1px solid var(--accent-glow);
+                border-radius: 4px;
+                font-size: 0.8rem;
+                font-weight: 600;
+            }
         }
     </style>
 </head>
@@ -270,6 +345,9 @@
 
     <!-- ГЛАВНЫЙ ЭКРАН -->
     <header class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="img/hero-promo.mp4" type="video/mp4">
+        </video>
         <div class="container hero-content">
             <h1 class="logo-text">FARALAB</h1>
             <p class="slogan">Дорога без темных пятен</p>
@@ -303,6 +381,23 @@
     </section>
 
     <!-- О ЛАБОРАТОРИИ -->
+    <section class="section gallery-section">
+        <div class="container">
+            <h2 class="section-title">FARALAB <span>Gallery</span></h2>
+            <div class="swiper faralab-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="img/toyota-faralab-1.png" alt="Toyota FARALAB — работа 1"></div>
+                    <div class="swiper-slide"><img src="img/toyota-faralab-2.png" alt="Toyota FARALAB — работа 2"></div>
+                    <div class="swiper-slide"><img src="img/workshop-lab.jpg" alt="Мастерская FARALAB"></div>
+                    <div class="swiper-slide"><img src="img/beam-stg.jpg" alt="Светотеневая граница"></div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="section" style="background-color: #0a0a0a;">
         <div class="container">
             <!-- Блок 1: Мастерская -->
@@ -339,6 +434,33 @@
             <a href="#" class="btn-primary btn-whatsapp">Написать в WhatsApp</a>
         </div>
     </footer>
+
+    <nav class="sticky-actions" aria-label="Быстрый контакт">
+        <a href="tel:" aria-label="Позвонить в FARALAB">Позвонить</a>
+        <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Написать в Telegram">Telegram</a>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        new Swiper('.faralab-swiper', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>

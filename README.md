@@ -11,6 +11,8 @@ Dark Premium Lab (темный фон, неоновые акценты, прем
   - `workshop-lab.jpg` — мастерская FARALAB
   - `beam-stg.jpg` — светотеневая граница
   - `hero-promo.mp4` — промо-видео
+  - `toyota-faralab-1.png` — Toyota FARALAB, кадр 1
+  - `toyota-faralab-2.png` — Toyota FARALAB, кадр 2
 - `/temp` — папка для временных набросков и черновиков
 - `index.html` — главный файл сборки
 
