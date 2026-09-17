@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARALAB | Ремонт и тюнинг автооптики</title>
+    <!-- Подключаем шрифты: строгий Montserrat для дизайна и Caveat для рукописного слогана -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           Базовые настройки и переменные
+           ============================================ */
+        :root {
+            --bg-color: #050505; /* Глубокий черный */
+            --surface-color: #121212; /* Темно-серый для карточек */
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-glow: #00e5ff; /* Неоновый голубой/ксенон */
+            --accent-glow-subtle: rgba(0, 229, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============================================
+           Главный экран (Hero)
+           ============================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* Тойота на фоне, затемненная градиентом */
+            background: linear-gradient(to bottom, rgba(5,5,5,0.7) 0%, rgba(5,5,5,1) 100%), url(img/fon.jpg) center/cover no-repeat;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .logo-text {
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: -10px;
+            text-transform: uppercase;
+            /* Легкий металлический отлив текста */
+            background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slogan {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            color: var(--text-main);
+            font-weight: 500;
+            margin-bottom: 40px;
+            transform: rotate(-2deg); /* Легкий наклон, как на визитке */
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 18px 40px;
+            background: transparent;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid var(--text-muted);
+            border-radius: 4px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 20px var(--accent-glow-subtle), inset 0 0 10px var(--accent-glow-subtle);
+            color: var(--accent-glow);
+            text-shadow: 0 0 8px var(--accent-glow-subtle);
+        }
+
+        /* ============================================
+           Секция Услуг (Карточки)
+           ============================================ */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 60px;
+            color: var(--text-muted);
+        }
+
+        .section-title span {
+            color: var(--text-main);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: var(--surface-color);
+            padding: 40px 30px;
+            border-radius: 8px;
+            border: 1px solid #222;
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-glow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-glow-subtle);
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ============================================
+           Секция "Лаборатория" и "Результат" (Сплит-блоки)
+           ============================================ */
+        .split-block {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 100px;
+        }
+
+        .split-block.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .split-image {
+            flex: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .split-image img {
+            width: 100%;
+            display: block;
+            filter: grayscale(20%) contrast(1.1);
+            transition: all 0.5s ease;
+        }
+
+        .split-image:hover img {
+            filter: grayscale(0%) contrast(1.1);
+            transform: scale(1.02);
+        }
+
+        /* Рамка-свечение вокруг фото для премиальности */
+        .split-image::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .split-text {
+            flex: 1;
+        }
+
+        .split-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .split-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* ============================================
+           Футер / Контакты
+           ============================================ */
+        .footer {
+            background-color: var(--surface-color);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .footer h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: #121212;
+            border-color: #25D366;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #22c35e;
+            color: #121212;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            text-shadow: none;
+        }
+
+        /* Адаптив для мобильных */
+        @media (max-width: 900px) {
+            .split-block, .split-block.reverse {
+                flex-direction: column;
+            }
+            .logo-text {
+                font-size: 3.5rem;
+            }
+            .slogan {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="logo-text">FARALAB</h1>
+            <p class="slogan">Дорога без темных пятен</p>
+            <a href="#contact" class="btn-primary">Оценить стоимость ремонта</a>
+        </div>
+    </header>
+
+    <!-- УСЛУГИ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Наши <span>Услуги</span></h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Устранение трещин</h3>
+                    <p>Профессиональная пайка корпусов и креплений. Восстанавливаем геометрию, фара больше не потеет.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Герметичность</h3>
+                    <p>Бережная разборка в специализированной термопечи. Сборка на оригинальный заводской герметик.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Замена стекол и линз</h3>
+                    <p>Установка сверхярких Bi-LED модулей. Кристальная прозрачность и мощный свет в любую погоду.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Настройка по ГОСТу</h3>
+                    <p>Точная регулировка пучка света на профессиональном реглоскопе Kraftwell.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О ЛАБОРАТОРИИ -->
+    <section class="section" style="background-color: #0a0a0a;">
+        <div class="container">
+            <!-- Блок 1: Мастерская -->
+            <div class="split-block">
+                <div class="split-image">
+                    <img src="IMG_20260917_151226_460.jpg" alt="Мастерская FARALAB">
+                </div>
+                <div class="split-text">
+                    <h2>Не гараж, а лаборатория</h2>
+                    <p>Мы работаем в идеальной чистоте на профессиональном оборудовании. Никаких «фенов на коленке».</p>
+                    <p>В нашем арсенале специализированная термопечь для бережной и безопасной распаковки оптики, которая сохраняет пластик вашей фары в заводском состоянии.</p>
+                </div>
+            </div>
+
+            <!-- Блок 2: Результат -->
+            <div class="split-block reverse">
+                <div class="split-image">
+                    <img src="IMG_20260917_151226_401.jpg" alt="Светотеневая граница">
+                </div>
+                <div class="split-text">
+                    <h2>Идеальная граница света</h2>
+                    <p>Вы получаете мощный, плотный и правильный свет. Четкая светотеневая граница (СТГ) пробивает любую непогоду.</p>
+                    <p>Ваш свет будет освещать обочины и знаки, обеспечивая максимальную безопасность, и при этом абсолютно не ослеплять встречных водителей.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <h2>Вернем вашим фарам заводской свет</h2>
+            <p>Пришлите фото оптики в WhatsApp — скажем точную стоимость и время работы.</p>
+            <a href="#" class="btn-primary btn-whatsapp">Написать в WhatsApp</a>
+        </div>
+    </footer>
+
+</body>
+</html>
