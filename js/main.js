@@ -121,7 +121,7 @@
     };
 
     const initializeAddressCopy = () => {
-        const address = document.querySelector('#lab-address');
+        const address = document.querySelector('.contacts-address-copy');
         if (!address) {
             return;
         }
@@ -145,12 +145,6 @@
         };
 
         address.addEventListener('click', copyAddress);
-        address.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                copyAddress();
-            }
-        });
     };
 
     document.addEventListener('DOMContentLoaded', async () => {
