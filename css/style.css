@@ -360,10 +360,6 @@ body {
     font-weight: 600;
 }
 
-.sticky-actions {
-    display: none;
-}
-
 @media (max-width: 900px) {
     .split-block,
     .split-block.reverse {
@@ -388,10 +384,6 @@ body {
 }
 
 @media (max-width: 768px) {
-    body {
-        padding-bottom: 76px;
-    }
-
     .contact-layout {
         grid-template-columns: 1fr;
     }
@@ -406,29 +398,4 @@ body {
         max-height: 130px;
     }
 
-    .sticky-actions {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        gap: 10px;
-        padding: 10px 12px;
-        background: rgba(18, 18, 18, 0.96);
-        border-top: 1px solid #333;
-        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
-    }
-
-    .sticky-actions a {
-        flex: 1;
-        padding: 10px;
-        color: var(--text-main);
-        text-align: center;
-        text-decoration: none;
-        border: 1px solid var(--accent-glow);
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
 }
