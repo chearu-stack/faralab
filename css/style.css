@@ -322,10 +322,19 @@ body {
 .contact-address {
     color: var(--text-muted);
     font-style: normal;
+    font-weight: 700;
     line-height: 1.5;
     max-width: 100%;
     box-sizing: border-box;
     word-break: break-word;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.contact-address:hover,
+.contact-address:focus-visible,
+.contact-address.is-copied {
+    color: var(--accent-glow);
 }
 
 .contact-link,
@@ -363,6 +372,24 @@ body {
     border: 0;
     border-radius: 10px;
     filter: grayscale(0.8) invert(0.9) hue-rotate(180deg) brightness(0.8);
+}
+
+.map-address {
+    display: block;
+    margin: 12px 8px 0;
+    color: var(--text-muted);
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.5;
+    max-width: 100%;
+    box-sizing: border-box;
+    word-break: break-word;
+    text-decoration: none;
+}
+
+.map-address:hover,
+.map-address:focus-visible {
+    color: var(--accent-glow);
 }
 
 .route-link {

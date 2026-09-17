@@ -120,10 +120,44 @@
         heroVideo.addEventListener('canplaythrough', revealHeroVideo, { once: true });
     };
 
+    const initializeAddressCopy = () => {
+        const address = document.querySelector('#lab-address');
+        if (!address) {
+            return;
+        }
+
+        const addressText = 'Нижегородская область, г. Богородск, ул. Добролюбова д. 2г';
+        const originalText = address.textContent;
+
+        const copyAddress = async () => {
+            try {
+                await navigator.clipboard.writeText(addressText);
+                address.textContent = 'Скопировано!';
+                address.classList.add('is-copied');
+            } catch (error) {
+                address.textContent = 'Не удалось скопировать';
+            }
+
+            window.setTimeout(() => {
+                address.textContent = originalText;
+                address.classList.remove('is-copied');
+            }, 1600);
+        };
+
+        address.addEventListener('click', copyAddress);
+        address.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                copyAddress();
+            }
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', async () => {
         const images = await getPortfolioImages();
         renderPortfolioGallery(images);
         initializeSwiper();
         initializeVideoFade();
+        initializeAddressCopy();
     });
 })();
