@@ -1,507 +1,63 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FARALAB | Ремонт и тюнинг автооптики</title>
-    <!-- Подключаем шрифты: строгий Montserrat для дизайна и Caveat для рукописного слогана -->
+    <title>FARALAB | Р РµРјРѕРЅС‚ Рё С‚СЋРЅРёРЅРі Р°РІС‚РѕРѕРїС‚РёРєРё</title>
+    <!-- РџРѕРґРєР»СЋС‡Р°РµРј С€СЂРёС„С‚С‹: СЃС‚СЂРѕРіРёР№ Montserrat РґР»СЏ РґРёР·Р°Р№РЅР° Рё Caveat РґР»СЏ СЂСѓРєРѕРїРёСЃРЅРѕРіРѕ СЃР»РѕРіР°РЅР° -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <style>
-        /* ============================================
-           Базовые настройки и переменные
-           ============================================ */
-        :root {
-            --bg-color: #050505; /* Глубокий черный */
-            --surface-color: #121212; /* Темно-серый для карточек */
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent-glow: #00e5ff; /* Неоновый голубой/ксенон */
-            --accent-glow-subtle: rgba(0, 229, 255, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ============================================
-           Главный экран (Hero)
-           ============================================ */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            /* Тойота на фоне, затемненная градиентом */
-            background: linear-gradient(to bottom, rgba(5,5,5,0.7) 0%, rgba(5,5,5,1) 100%), url(img/hero-bg.jpg) center/cover no-repeat;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-        }
-
-        .hero-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            z-index: 0;
-        }
-
-        .gallery-section {
-            background-color: #0a0a0a;
-        }
-
-        .swiper {
-            width: 100%;
-            padding-bottom: 45px;
-        }
-
-        .swiper-slide {
-            height: 420px;
-            border-radius: 12px;
-            overflow: hidden;
-            background-color: var(--surface-color);
-        }
-
-        .swiper-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: var(--accent-glow);
-        }
-
-        .swiper-pagination-bullet-active {
-            background: var(--accent-glow);
-        }
-
-        .sticky-actions {
-            display: none;
-        }
-
-        .logo-text {
-            font-size: 5rem;
-            font-weight: 800;
-            letter-spacing: 4px;
-            margin-bottom: -10px;
-            text-transform: uppercase;
-            /* Легкий металлический отлив текста */
-            background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .slogan {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem;
-            color: var(--text-main);
-            font-weight: 500;
-            margin-bottom: 40px;
-            transform: rotate(-2deg); /* Легкий наклон, как на визитке */
-        }
-
-        .btn-primary {
-            display: inline-block;
-            padding: 18px 40px;
-            background: transparent;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border: 1px solid var(--text-muted);
-            border-radius: 4px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary:hover {
-            border-color: var(--accent-glow);
-            box-shadow: 0 0 20px var(--accent-glow-subtle), inset 0 0 10px var(--accent-glow-subtle);
-            color: var(--accent-glow);
-            text-shadow: 0 0 8px var(--accent-glow-subtle);
-        }
-
-        /* ============================================
-           Секция Услуг (Карточки)
-           ============================================ */
-        .section {
-            padding: 100px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 60px;
-            color: var(--text-muted);
-        }
-
-        .section-title span {
-            color: var(--text-main);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .service-card {
-            background-color: var(--surface-color);
-            padding: 40px 30px;
-            border-radius: 8px;
-            border: 1px solid #222;
-            transition: all 0.4s ease;
-            cursor: default;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-glow);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-glow-subtle);
-        }
-
-        .service-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .service-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* ============================================
-           Секция "Лаборатория" и "Результат" (Сплит-блоки)
-           ============================================ */
-        .split-block {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 100px;
-        }
-
-        .split-block.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .split-image {
-            flex: 1;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .split-image img {
-            width: 100%;
-            display: block;
-            filter: grayscale(20%) contrast(1.1);
-            transition: all 0.5s ease;
-        }
-
-        .split-image:hover img {
-            filter: grayscale(0%) contrast(1.1);
-            transform: scale(1.02);
-        }
-
-        /* Рамка-свечение вокруг фото для премиальности */
-        .split-image::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            pointer-events: none;
-        }
-
-        .split-text {
-            flex: 1;
-        }
-
-        .split-text h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        .split-text p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-
-        /* ============================================
-           Футер / Контакты
-           ============================================ */
-        .footer {
-            background-color: var(--surface-color);
-            padding: 60px 0;
-            text-align: center;
-            border-top: 1px solid #222;
-        }
-
-        .footer h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .footer p {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .contact-layout {
-            display: grid;
-            grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
-            gap: 30px;
-            text-align: left;
-        }
-
-        .contact-card,
-        .map-card {
-            padding: 32px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 16px;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-            backdrop-filter: blur(14px);
-        }
-
-        .contact-card h2 {
-            margin-bottom: 12px;
-        }
-
-        .brand-headlight {
-            display: block;
-            width: min(100%, 220px);
-            max-height: 160px;
-            object-fit: contain;
-            object-position: left center;
-            margin: -14px 0 8px;
-            filter: drop-shadow(0 0 15px rgba(255, 180, 0, 0.4));
-            animation: headlight-pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes headlight-pulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 12px rgba(255, 180, 0, 0.3));
-            }
-            50% {
-                filter: drop-shadow(0 0 22px rgba(255, 180, 0, 0.55));
-            }
-        }
-
-        .contact-card > p {
-            margin-bottom: 24px;
-        }
-
-        .contact-list {
-            display: grid;
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .contact-list a,
-        .contact-list span {
-            color: var(--text-main);
-            text-decoration: none;
-        }
-
-        .contact-list a:hover {
-            color: var(--accent-glow);
-        }
-
-        .map-card {
-            padding: 12px;
-        }
-
-        .map-frame {
-            width: 100%;
-            min-height: 280px;
-            border: 0;
-            border-radius: 10px;
-            display: block;
-            filter: grayscale(0.8) invert(0.9) hue-rotate(180deg) brightness(0.8);
-        }
-
-        .route-button {
-            width: 100%;
-            margin-top: 12px;
-            text-align: center;
-        }
-
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: #121212;
-            border-color: #25D366;
-        }
-        
-        .btn-whatsapp:hover {
-            background-color: #22c35e;
-            color: #121212;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
-            text-shadow: none;
-        }
-
-        /* Адаптив для мобильных */
-        @media (max-width: 900px) {
-            .split-block, .split-block.reverse {
-                flex-direction: column;
-            }
-            .logo-text {
-                font-size: 3.5rem;
-            }
-            .slogan {
-                font-size: 2.2rem;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .swiper-slide {
-                height: 280px;
-            }
-            .sticky-actions {
-                display: flex;
-                position: fixed;
-                left: 12px;
-                right: 12px;
-                bottom: 12px;
-                z-index: 10;
-                gap: 10px;
-                padding: 10px;
-                background: rgba(18, 18, 18, 0.94);
-                border: 1px solid #333;
-                border-radius: 8px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.45);
-            }
-            .sticky-actions a {
-                flex: 1;
-                padding: 10px;
-                color: var(--text-main);
-                text-align: center;
-                text-decoration: none;
-                border: 1px solid var(--accent-glow);
-                border-radius: 4px;
-                font-size: 0.8rem;
-                font-weight: 600;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding-bottom: 76px;
-            }
-            .contact-layout {
-                grid-template-columns: 1fr;
-            }
-            .contact-card,
-            .map-card {
-                padding: 22px;
-            }
-            .brand-headlight {
-                width: 180px;
-                max-height: 130px;
-            }
-            .sticky-actions {
-                display: flex;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-                gap: 10px;
-                padding: 10px 12px;
-                background: rgba(18, 18, 18, 0.96);
-                border-top: 1px solid #333;
-                border-radius: 0;
-                box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <!-- Р“Р›РђР’РќР«Р™ Р­РљР РђРќ -->
     <header class="hero">
         <video class="hero-video" autoplay muted loop playsinline poster="img/hero-bg.jpg">
             <source src="img/hero-promo.mp4" type="video/mp4">
         </video>
         <div class="container hero-content">
             <h1 class="logo-text">FARALAB</h1>
-            <p class="slogan">Дорога без темных пятен</p>
-            <a href="#contact" class="btn-primary">Оценить стоимость ремонта</a>
+            <p class="slogan">Р”РѕСЂРѕРіР° Р±РµР· С‚РµРјРЅС‹С… РїСЏС‚РµРЅ</p>
+            <a href="#contact" class="btn-primary">РћС†РµРЅРёС‚СЊ СЃС‚РѕРёРјРѕСЃС‚СЊ СЂРµРјРѕРЅС‚Р°</a>
         </div>
     </header>
 
-    <!-- УСЛУГИ -->
+    <!-- РЈРЎР›РЈР“Р -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">Наши <span>Услуги</span></h2>
+            <h2 class="section-title">РќР°С€Рё <span>РЈСЃР»СѓРіРё</span></h2>
             <div class="services-grid">
                 <div class="service-card">
-                    <h3>Устранение трещин</h3>
-                    <p>Профессиональная пайка корпусов и креплений. Восстанавливаем геометрию, фара больше не потеет.</p>
+                    <h3>РЈСЃС‚СЂР°РЅРµРЅРёРµ С‚СЂРµС‰РёРЅ</h3>
+                    <p>РџСЂРѕС„РµСЃСЃРёРѕРЅР°Р»СЊРЅР°СЏ РїР°Р№РєР° РєРѕСЂРїСѓСЃРѕРІ Рё РєСЂРµРїР»РµРЅРёР№. Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РіРµРѕРјРµС‚СЂРёСЋ, С„Р°СЂР° Р±РѕР»СЊС€Рµ РЅРµ РїРѕС‚РµРµС‚.</p>
                 </div>
                 <div class="service-card">
-                    <h3>Герметичность</h3>
-                    <p>Бережная разборка в специализированной термопечи. Сборка на оригинальный заводской герметик.</p>
+                    <h3>Р“РµСЂРјРµС‚РёС‡РЅРѕСЃС‚СЊ</h3>
+                    <p>Р‘РµСЂРµР¶РЅР°СЏ СЂР°Р·Р±РѕСЂРєР° РІ СЃРїРµС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕР№ С‚РµСЂРјРѕРїРµС‡Рё. РЎР±РѕСЂРєР° РЅР° РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ Р·Р°РІРѕРґСЃРєРѕР№ РіРµСЂРјРµС‚РёРє.</p>
                 </div>
                 <div class="service-card">
-                    <h3>Замена стекол и линз</h3>
-                    <p>Установка сверхярких Bi-LED модулей. Кристальная прозрачность и мощный свет в любую погоду.</p>
+                    <h3>Р—Р°РјРµРЅР° СЃС‚РµРєРѕР» Рё Р»РёРЅР·</h3>
+                    <p>РЈСЃС‚Р°РЅРѕРІРєР° СЃРІРµСЂС…СЏСЂРєРёС… Bi-LED РјРѕРґСѓР»РµР№. РљСЂРёСЃС‚Р°Р»СЊРЅР°СЏ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ Рё РјРѕС‰РЅС‹Р№ СЃРІРµС‚ РІ Р»СЋР±СѓСЋ РїРѕРіРѕРґСѓ.</p>
                 </div>
                 <div class="service-card">
-                    <h3>Настройка по ГОСТу</h3>
-                    <p>Точная регулировка пучка света на профессиональном реглоскопе Kraftwell.</p>
+                    <h3>РќР°СЃС‚СЂРѕР№РєР° РїРѕ Р“РћРЎРўСѓ</h3>
+                    <p>РўРѕС‡РЅР°СЏ СЂРµРіСѓР»РёСЂРѕРІРєР° РїСѓС‡РєР° СЃРІРµС‚Р° РЅР° РїСЂРѕС„РµСЃСЃРёРѕРЅР°Р»СЊРЅРѕРј СЂРµРіР»РѕСЃРєРѕРїРµ Kraftwell.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- О ЛАБОРАТОРИИ -->
+    <!-- Рћ Р›РђР‘РћР РђРўРћР РР -->
     <section class="section gallery-section">
         <div class="container">
             <h2 class="section-title">FARALAB <span>Gallery</span></h2>
             <div class="swiper faralab-swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="img/toyota-faralab-1.png" alt="Toyota FARALAB — работа 1"></div>
-                    <div class="swiper-slide"><img src="img/toyota-faralab-2.png" alt="Toyota FARALAB — работа 2"></div>
-                    <div class="swiper-slide"><img src="img/workshop-lab.jpg" alt="Мастерская FARALAB"></div>
-                    <div class="swiper-slide"><img src="img/beam-stg.jpg" alt="Светотеневая граница"></div>
+                    <div class="swiper-slide"><img src="img/toyota-faralab-1.png" alt="Toyota FARALAB вЂ” СЂР°Р±РѕС‚Р° 1"></div>
+                    <div class="swiper-slide"><img src="img/toyota-faralab-2.png" alt="Toyota FARALAB вЂ” СЂР°Р±РѕС‚Р° 2"></div>
+                    <div class="swiper-slide"><img src="img/workshop-lab.jpg" alt="РњР°СЃС‚РµСЂСЃРєР°СЏ FARALAB"></div>
+                    <div class="swiper-slide"><img src="img/beam-stg.jpg" alt="РЎРІРµС‚РѕС‚РµРЅРµРІР°СЏ РіСЂР°РЅРёС†Р°"></div>
                 </div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
@@ -510,90 +66,65 @@
         </div>
     </section>
 
-    <section class="section" style="background-color: #0a0a0a;">
+    <section class="section gallery-workshop">
         <div class="container">
-            <!-- Блок 1: Мастерская -->
+            <!-- Р‘Р»РѕРє 1: РњР°СЃС‚РµСЂСЃРєР°СЏ -->
             <div class="split-block">
                 <div class="split-image">
-                    <img src="img/workshop-lab.jpg" alt="Мастерская FARALAB">
+                    <img src="img/workshop-lab.jpg" alt="РњР°СЃС‚РµСЂСЃРєР°СЏ FARALAB">
                 </div>
                 <div class="split-text">
-                    <h2>Не гараж, а лаборатория</h2>
-                    <p>Мы работаем в идеальной чистоте на профессиональном оборудовании. Никаких «фенов на коленке».</p>
-                    <p>В нашем арсенале специализированная термопечь для бережной и безопасной распаковки оптики, которая сохраняет пластик вашей фары в заводском состоянии.</p>
+                    <h2>РќРµ РіР°СЂР°Р¶, Р° Р»Р°Р±РѕСЂР°С‚РѕСЂРёСЏ</h2>
+                    <p>РњС‹ СЂР°Р±РѕС‚Р°РµРј РІ РёРґРµР°Р»СЊРЅРѕР№ С‡РёСЃС‚РѕС‚Рµ РЅР° РїСЂРѕС„РµСЃСЃРёРѕРЅР°Р»СЊРЅРѕРј РѕР±РѕСЂСѓРґРѕРІР°РЅРёРё. РќРёРєР°РєРёС… В«С„РµРЅРѕРІ РЅР° РєРѕР»РµРЅРєРµВ».</p>
+                    <p>Р’ РЅР°С€РµРј Р°СЂСЃРµРЅР°Р»Рµ СЃРїРµС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅР°СЏ С‚РµСЂРјРѕРїРµС‡СЊ РґР»СЏ Р±РµСЂРµР¶РЅРѕР№ Рё Р±РµР·РѕРїР°СЃРЅРѕР№ СЂР°СЃРїР°РєРѕРІРєРё РѕРїС‚РёРєРё, РєРѕС‚РѕСЂР°СЏ СЃРѕС…СЂР°РЅСЏРµС‚ РїР»Р°СЃС‚РёРє РІР°С€РµР№ С„Р°СЂС‹ РІ Р·Р°РІРѕРґСЃРєРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё.</p>
                 </div>
             </div>
 
-            <!-- Блок 2: Результат -->
+            <!-- Р‘Р»РѕРє 2: Р РµР·СѓР»СЊС‚Р°С‚ -->
             <div class="split-block reverse">
                 <div class="split-image">
-                    <img src="img/beam-stg.jpg" alt="Светотеневая граница">
+                    <img src="img/beam-stg.jpg" alt="РЎРІРµС‚РѕС‚РµРЅРµРІР°СЏ РіСЂР°РЅРёС†Р°">
                 </div>
                 <div class="split-text">
-                    <h2>Идеальная граница света</h2>
-                    <p>Вы получаете мощный, плотный и правильный свет. Четкая светотеневая граница (СТГ) пробивает любую непогоду.</p>
-                    <p>Ваш свет будет освещать обочины и знаки, обеспечивая максимальную безопасность, и при этом абсолютно не ослеплять встречных водителей.</p>
+                    <h2>РРґРµР°Р»СЊРЅР°СЏ РіСЂР°РЅРёС†Р° СЃРІРµС‚Р°</h2>
+                    <p>Р’С‹ РїРѕР»СѓС‡Р°РµС‚Рµ РјРѕС‰РЅС‹Р№, РїР»РѕС‚РЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅС‹Р№ СЃРІРµС‚. Р§РµС‚РєР°СЏ СЃРІРµС‚РѕС‚РµРЅРµРІР°СЏ РіСЂР°РЅРёС†Р° (РЎРўР“) РїСЂРѕР±РёРІР°РµС‚ Р»СЋР±СѓСЋ РЅРµРїРѕРіРѕРґСѓ.</p>
+                    <p>Р’Р°С€ СЃРІРµС‚ Р±СѓРґРµС‚ РѕСЃРІРµС‰Р°С‚СЊ РѕР±РѕС‡РёРЅС‹ Рё Р·РЅР°РєРё, РѕР±РµСЃРїРµС‡РёРІР°СЏ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ, Рё РїСЂРё СЌС‚РѕРј Р°Р±СЃРѕР»СЋС‚РЅРѕ РЅРµ РѕСЃР»РµРїР»СЏС‚СЊ РІСЃС‚СЂРµС‡РЅС‹С… РІРѕРґРёС‚РµР»РµР№.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- КОНТАКТЫ -->
+    <!-- РљРћРќРўРђРљРўР« -->
     <footer id="contact" class="footer">
         <div class="container">
             <div class="contact-layout">
                 <section class="contact-card">
-                    <img class="brand-headlight" src="img/brand-headlight.png" alt="Фара FARALAB">
-                    <h2>Лаборатория автосвета FARALAB</h2>
-                    <p>Профессиональная диагностика, замена линз и настройка СТГ</p>
+                    <img class="brand-headlight" src="img/brand-headlight.png" alt="Р¤Р°СЂР° FARALAB">
+                    <h2>Р›Р°Р±РѕСЂР°С‚РѕСЂРёСЏ Р°РІС‚РѕСЃРІРµС‚Р° FARALAB</h2>
+                    <p>РџСЂРѕС„РµСЃСЃРёРѕРЅР°Р»СЊРЅР°СЏ РґРёР°РіРЅРѕСЃС‚РёРєР°, Р·Р°РјРµРЅР° Р»РёРЅР· Рё РЅР°СЃС‚СЂРѕР№РєР° РЎРўР“</p>
                     <div class="contact-list">
-                        <a href="tel:+79000000000">☎ Позвонить: +7 (900) 000-00-00</a>
-                        <a href="https://t.me/faralab" target="_blank" rel="noopener">✈ Telegram: @faralab</a>
-                        <span>Пн – Сб: 09:00 - 20:00 (по записи)</span>
+                        <a class="contact-link" href="tel:+79000000000"><span class="contact-icon" aria-hidden="true">☎</span>вЋ РџРѕР·РІРѕРЅРёС‚СЊ: +7 (900) 000-00-00</a>
+                        <a class="contact-link" href="https://t.me/faralab" target="_blank" rel="noopener"><span class="contact-icon" aria-hidden="true">✈</span>вњ€ Telegram: @faralab</a>
+                        <span>РџРЅ вЂ“ РЎР±: 09:00 - 20:00 (РїРѕ Р·Р°РїРёСЃРё)</span>
                     </div>
-                    <a href="tel:+79000000000" class="btn-primary">Записаться на диагностику</a>
                 </section>
-                <section class="map-card" aria-label="Расположение FARALAB на карте">
-                    <iframe class="map-frame" src="https://yandex.ru/map-widget/v1/?text=FARALAB" title="FARALAB на Яндекс.Картах" allowfullscreen></iframe>
-                    <a href="https://yandex.ru/maps/?rtext=~FARALAB&rtt=auto" class="btn-primary route-button" target="_blank" rel="noopener">Построить маршрут в Яндекс.Навигаторе</a>
+                <section class="map-card" aria-label="Р Р°СЃРїРѕР»РѕР¶РµРЅРёРµ FARALAB РЅР° РєР°СЂС‚Рµ">
+                    <iframe class="map-frame" src="https://yandex.ru/map-widget/v1/?text=FARALAB" title="FARALAB РЅР° РЇРЅРґРµРєСЃ.РљР°СЂС‚Р°С…" allowfullscreen></iframe>
+                    <a href="https://yandex.ru/maps/?rtext=~FARALAB&rtt=auto" class="route-link" target="_blank" rel="noopener">РџРѕСЃС‚СЂРѕРёС‚СЊ РјР°СЂС€СЂСѓС‚ РІ РЇРЅРґРµРєСЃ.РќР°РІРёРіР°С‚РѕСЂРµ</a>
                 </section>
             </div>
         </div>
     </footer>
 
-    <nav class="sticky-actions" aria-label="Быстрый контакт">
-        <a href="tel:+79000000000" aria-label="Позвонить в FARALAB">Позвонить</a>
-        <a href="https://t.me/faralab" target="_blank" rel="noopener" aria-label="Написать в Telegram">Telegram</a>
+    <nav class="sticky-actions" aria-label="Р‘С‹СЃС‚СЂС‹Р№ РєРѕРЅС‚Р°РєС‚">
+        <a href="tel:+79000000000" aria-label="РџРѕР·РІРѕРЅРёС‚СЊ РІ FARALAB">РџРѕР·РІРѕРЅРёС‚СЊ</a>
+        <a href="https://t.me/faralab" target="_blank" rel="noopener" aria-label="РќР°РїРёСЃР°С‚СЊ РІ Telegram">Telegram</a>
     </nav>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        new Swiper('.faralab-swiper', {
-            loop: true,
-            slidesPerView: 1,
-            spaceBetween: 20,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-            },
-            breakpoints: {
-                768: {
-                    slidesPerView: 2
-                }
-            }
-        });
-
-        const heroVideo = document.querySelector('.hero-video');
-        const revealHeroVideo = () => {
-            heroVideo.style.opacity = '1';
-        };
-        heroVideo.addEventListener('playing', revealHeroVideo, { once: true });
-        heroVideo.addEventListener('canplaythrough', revealHeroVideo, { once: true });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="js/main.js" defer></script>
 
 </body>
 </html>
+
+
+
