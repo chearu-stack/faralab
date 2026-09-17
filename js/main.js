@@ -1,8 +1,12 @@
 (() => {
     const portfolioImages = [
+        'beam-stg.jpg',
         'gg_1.jpg',
         'gg_3.jpg',
-        'gg_5.jpg'
+        'gg_5.jpg',
+        'toyota-faralab-1.png',
+        'toyota-faralab-2.png',
+        'workshop-lab.jpg'
     ];
 
     const createPortfolioItems = (fileNames) => fileNames.map((fileName, index) => ({
@@ -22,8 +26,11 @@
             const directoryMarkup = await response.text();
             const directoryDocument = new DOMParser().parseFromString(directoryMarkup, 'text/html');
             const discoveredFiles = [...directoryDocument.querySelectorAll('a[href]')]
-                .map((link) => link.getAttribute('href').split('/').pop())
-                .filter((fileName) => /^gg_.+\.jpg$/i.test(fileName))
+                .map((link) => {
+                    const href = link.getAttribute('href');
+                    return href ? decodeURIComponent(href.split(/[?#]/)[0].split('/').pop()) : '';
+                })
+                .filter((fileName) => /\.(?:jpg|jpeg|png|webp|avif)$/i.test(fileName))
                 .sort((first, second) => first.localeCompare(second, undefined, { numeric: true }));
 
             return discoveredFiles.length ? createPortfolioItems(discoveredFiles) : fallbackImages;
