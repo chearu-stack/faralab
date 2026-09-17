@@ -1,17 +1,46 @@
 (() => {
     const portfolioImages = [
-        { src: 'img/gallery/gg_1.jpg', alt: 'FARALAB — выполненная работа 1' },
-        { src: 'img/gallery/gg_3.jpg', alt: 'FARALAB — выполненная работа 2' },
-        { src: 'img/gallery/gg_5.jpg', alt: 'FARALAB — выполненная работа 3' }
+        'gg_1.jpg',
+        'gg_3.jpg',
+        'gg_5.jpg'
     ];
 
-    const renderPortfolioGallery = () => {
+    const createPortfolioItems = (fileNames) => fileNames.map((fileName, index) => ({
+        src: `img/gallery/${fileName}`,
+        alt: `FARALAB portfolio item ${index + 1}`
+    }));
+
+    const getPortfolioImages = async () => {
+        const fallbackImages = createPortfolioItems(portfolioImages);
+
+        try {
+            const response = await fetch('img/gallery/');
+            if (!response.ok) {
+                return fallbackImages;
+            }
+
+            const directoryMarkup = await response.text();
+            const directoryDocument = new DOMParser().parseFromString(directoryMarkup, 'text/html');
+            const discoveredFiles = [...directoryDocument.querySelectorAll('a[href]')]
+                .map((link) => link.getAttribute('href').split('/').pop())
+                .filter((fileName) => /^gg_.+\.jpg$/i.test(fileName))
+                .sort((first, second) => first.localeCompare(second, undefined, { numeric: true }));
+
+            return discoveredFiles.length ? createPortfolioItems(discoveredFiles) : fallbackImages;
+        } catch (error) {
+            return fallbackImages;
+        }
+    };
+
+    const renderPortfolioGallery = (images) => {
         const gallery = document.querySelector('#portfolio-gallery');
         if (!gallery) {
             return;
         }
 
-        portfolioImages.forEach(({ src, alt }) => {
+        gallery.replaceChildren();
+
+        images.forEach(({ src, alt }) => {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
 
@@ -64,8 +93,9 @@
         heroVideo.addEventListener('canplaythrough', revealHeroVideo, { once: true });
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
-        renderPortfolioGallery();
+    document.addEventListener('DOMContentLoaded', async () => {
+        const images = await getPortfolioImages();
+        renderPortfolioGallery(images);
         initializeSwiper();
         initializeVideoFade();
     });
