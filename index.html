@@ -305,6 +305,26 @@
             margin-bottom: 12px;
         }
 
+        .brand-headlight {
+            display: block;
+            width: min(100%, 220px);
+            max-height: 160px;
+            object-fit: contain;
+            object-position: left center;
+            margin: -14px 0 8px;
+            filter: drop-shadow(0 0 15px rgba(255, 180, 0, 0.4));
+            animation: headlight-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes headlight-pulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 12px rgba(255, 180, 0, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 22px rgba(255, 180, 0, 0.55));
+            }
+        }
+
         .contact-card > p {
             margin-bottom: 24px;
         }
@@ -411,6 +431,10 @@
             .contact-card,
             .map-card {
                 padding: 22px;
+            }
+            .brand-headlight {
+                width: 180px;
+                max-height: 130px;
             }
             .sticky-actions {
                 display: flex;
@@ -519,6 +543,7 @@
         <div class="container">
             <div class="contact-layout">
                 <section class="contact-card">
+                    <img class="brand-headlight" src="img/brand-headlight.png" alt="Фара FARALAB">
                     <h2>Лаборатория автосвета FARALAB</h2>
                     <p>Профессиональная диагностика, замена линз и настройка СТГ</p>
                     <div class="contact-list">
