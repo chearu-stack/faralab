@@ -14,8 +14,26 @@
         alt: `FARALAB portfolio item ${index + 1}`
     }));
 
+    const interleavePortfolioImages = (fileNames) => {
+        const ggImages = fileNames.filter((fileName) => fileName.toLowerCase().startsWith('gg_'));
+        const realImages = fileNames.filter((fileName) => !fileName.toLowerCase().startsWith('gg_'));
+        const interleavedImages = [];
+        const totalImages = Math.max(ggImages.length, realImages.length);
+
+        for (let index = 0; index < totalImages; index += 1) {
+            if (ggImages[index]) {
+                interleavedImages.push(ggImages[index]);
+            }
+            if (realImages[index]) {
+                interleavedImages.push(realImages[index]);
+            }
+        }
+
+        return interleavedImages;
+    };
+
     const getPortfolioImages = async () => {
-        const fallbackImages = createPortfolioItems(portfolioImages);
+        const fallbackImages = createPortfolioItems(interleavePortfolioImages(portfolioImages));
 
         try {
             const response = await fetch('img/gallery/');
@@ -33,7 +51,9 @@
                 .filter((fileName) => /\.(?:jpg|jpeg|png|webp|avif)$/i.test(fileName))
                 .sort((first, second) => first.localeCompare(second, undefined, { numeric: true }));
 
-            return discoveredFiles.length ? createPortfolioItems(discoveredFiles) : fallbackImages;
+            return discoveredFiles.length
+                ? createPortfolioItems(interleavePortfolioImages(discoveredFiles))
+                : fallbackImages;
         } catch (error) {
             return fallbackImages;
         }
