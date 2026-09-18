@@ -533,12 +533,18 @@ body {
 
     .hamburger-toggle {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         position: relative;
         min-width: 42px;
         min-height: 42px;
         z-index: 1001;
+    }
+
+    .hamburger-toggle span {
+        width: 100%;
+        flex: 0 0 2px;
     }
 
     .desktop-nav {
@@ -567,6 +573,10 @@ body {
         opacity: 1;
         pointer-events: auto;
         transform: translateY(0);
+    }
+
+    .mobile-nav-overlay > .mobile-link {
+        display: block !important;
     }
 
     .mobile-menu a,
