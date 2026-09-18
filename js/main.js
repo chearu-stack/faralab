@@ -96,8 +96,8 @@
     };
 
     const initializeMobileMenu = () => {
-        const menuToggle = document.querySelector('.site-nav-toggle');
-        const navigation = document.querySelector('.site-nav');
+        const menuToggle = document.querySelector('.hamburger-toggle');
+        const navigation = document.querySelector('.mobile-nav-overlay');
         if (!menuToggle || !navigation) {
             return;
         }
@@ -114,14 +114,17 @@
             document.body.classList.toggle('menu-open', isOpen);
         });
 
-        navigation.querySelectorAll('a').forEach((link) => {
+        document.querySelectorAll('.desktop-nav a, .mobile-nav-overlay a').forEach((link) => {
             link.addEventListener('click', (event) => {
                 const targetSelector = link.getAttribute('href');
+                const normalizedSelector = targetSelector && targetSelector.startsWith('#')
+                    ? targetSelector
+                    : `#${targetSelector}`;
                 let targetElement = null;
 
                 try {
                     targetElement = targetSelector && targetSelector !== '/'
-                        ? document.querySelector(targetSelector)
+                        ? document.querySelector(normalizedSelector)
                         : null;
                 } catch (error) {
                     targetElement = null;
