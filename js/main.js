@@ -32,8 +32,23 @@
         return interleavedImages;
     };
 
+    const prioritizeToyotaImage = (fileNames) => {
+        const firstImageIndex = fileNames.indexOf('toyota-faralab-1.png');
+        if (firstImageIndex <= 0) {
+            return fileNames;
+        }
+
+        return [
+            fileNames[firstImageIndex],
+            ...fileNames.slice(0, firstImageIndex),
+            ...fileNames.slice(firstImageIndex + 1)
+        ];
+    };
+
     const getPortfolioImages = async () => {
-        const fallbackImages = createPortfolioItems(interleavePortfolioImages(portfolioImages));
+        const fallbackImages = createPortfolioItems(
+            prioritizeToyotaImage(interleavePortfolioImages(portfolioImages))
+        );
 
         try {
             const response = await fetch('img/gallery/');
@@ -52,7 +67,9 @@
                 .sort((first, second) => first.localeCompare(second, undefined, { numeric: true }));
 
             return discoveredFiles.length
-                ? createPortfolioItems(interleavePortfolioImages(discoveredFiles))
+                ? createPortfolioItems(
+                    prioritizeToyotaImage(interleavePortfolioImages(discoveredFiles))
+                )
                 : fallbackImages;
         } catch (error) {
             return fallbackImages;
