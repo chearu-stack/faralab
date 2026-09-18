@@ -1,96 +1,27 @@
 (() => {
     const portfolioImages = [
-        'beam-stg.jpg',
+        'toyota-faralab-1.png',
         'gg_1.jpg',
+        'beam-stg.jpg',
         'gg_3.jpg',
         'gg_5.jpg',
-        'toyota-faralab-1.png',
         'toyota-faralab-2.png',
         'workshop-lab.jpg'
     ];
 
-    const createPortfolioItems = (fileNames) => fileNames.map((fileName, index) => ({
-        src: `img/gallery/${fileName}`,
-        alt: `FARALAB portfolio item ${index + 1}`
-    }));
-
-    const interleavePortfolioImages = (fileNames) => {
-        const ggImages = fileNames.filter((fileName) => fileName.toLowerCase().startsWith('gg_'));
-        const realImages = fileNames.filter((fileName) => !fileName.toLowerCase().startsWith('gg_'));
-        const interleavedImages = [];
-        const totalImages = Math.max(ggImages.length, realImages.length);
-
-        for (let index = 0; index < totalImages; index += 1) {
-            if (ggImages[index]) {
-                interleavedImages.push(ggImages[index]);
-            }
-            if (realImages[index]) {
-                interleavedImages.push(realImages[index]);
-            }
-        }
-
-        return interleavedImages;
-    };
-
-    const prioritizeToyotaImage = (fileNames) => {
-        const firstImageIndex = fileNames.indexOf('toyota-faralab-1.png');
-        if (firstImageIndex <= 0) {
-            return fileNames;
-        }
-
-        return [
-            fileNames[firstImageIndex],
-            ...fileNames.slice(0, firstImageIndex),
-            ...fileNames.slice(firstImageIndex + 1)
-        ];
-    };
-
-    const getPortfolioImages = async () => {
-        const fallbackImages = createPortfolioItems(
-            prioritizeToyotaImage(interleavePortfolioImages(portfolioImages))
-        );
-
-        try {
-            const response = await fetch('img/gallery/');
-            if (!response.ok) {
-                return fallbackImages;
-            }
-
-            const directoryMarkup = await response.text();
-            const directoryDocument = new DOMParser().parseFromString(directoryMarkup, 'text/html');
-            const discoveredFiles = [...directoryDocument.querySelectorAll('a[href]')]
-                .map((link) => {
-                    const href = link.getAttribute('href');
-                    return href ? decodeURIComponent(href.split(/[?#]/)[0].split('/').pop()) : '';
-                })
-                .filter((fileName) => /\.(?:jpg|jpeg|png|webp|avif)$/i.test(fileName))
-                .sort((first, second) => first.localeCompare(second, undefined, { numeric: true }));
-
-            return discoveredFiles.length
-                ? createPortfolioItems(
-                    prioritizeToyotaImage(interleavePortfolioImages(discoveredFiles))
-                )
-                : fallbackImages;
-        } catch (error) {
-            return fallbackImages;
-        }
-    };
-
-    const renderPortfolioGallery = (images) => {
+    const renderPortfolioGallery = () => {
         const gallery = document.querySelector('#portfolio-gallery');
         if (!gallery) {
             return;
         }
 
-        gallery.replaceChildren();
-
-        images.forEach(({ src, alt }) => {
+        portfolioImages.forEach((fileName, index) => {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
 
             const image = document.createElement('img');
-            image.src = src;
-            image.alt = alt;
+            image.src = `img/gallery/${fileName}`;
+            image.alt = `FARALAB portfolio item ${index + 1}`;
             image.loading = 'eager';
 
             slide.appendChild(image);
@@ -164,11 +95,56 @@
         address.addEventListener('click', copyAddress);
     };
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const images = await getPortfolioImages();
-        renderPortfolioGallery(images);
+    const initializeMobileMenu = () => {
+        const menuToggle = document.querySelector('.site-nav-toggle');
+        const navigation = document.querySelector('.site-nav');
+        if (!menuToggle || !navigation) {
+            return;
+        }
+
+        const closeMenu = () => {
+            navigation.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
+        };
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navigation.classList.toggle('is-open');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+            document.body.classList.toggle('menu-open', isOpen);
+        });
+
+        navigation.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                const targetSelector = link.getAttribute('href');
+                let targetElement = null;
+
+                try {
+                    targetElement = targetSelector && targetSelector !== '/'
+                        ? document.querySelector(targetSelector)
+                        : null;
+                } catch (error) {
+                    targetElement = null;
+                }
+
+                if (!targetElement) {
+                    event.preventDefault();
+                    closeMenu();
+                    return;
+                }
+
+                event.preventDefault();
+                closeMenu();
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderPortfolioGallery();
         initializeSwiper();
         initializeVideoFade();
         initializeAddressCopy();
+        initializeMobileMenu();
     });
 })();

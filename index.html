@@ -12,8 +12,25 @@
 </head>
 <body>
 
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="site-logo" href="javascript:void(0);" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" aria-label="FARALAB — в начало">FARALAB</a>
+            <button class="site-nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-navigation">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M3 6h18M3 12h18M3 18h18"></path>
+                </svg>
+            </button>
+            <nav class="site-nav" id="site-navigation" aria-label="Основная навигация">
+                <a class="site-nav-link" data-mobile-link="true" href="#advantages">Преимущества</a>
+                <a class="site-nav-link" data-mobile-link="true" href="#services">Услуги</a>
+                <a class="site-nav-link" data-mobile-link="true" href="#portfolio">Портфолио</a>
+                <a class="site-nav-link" data-mobile-link="true" href="#contact">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
     <!-- ГЛАВНЫЙ ЭКРАН -->
-    <header class="hero">
+    <header class="hero" id="top">
         <video class="hero-video" autoplay muted loop playsinline poster="img/hero-bg.jpg">
             <source src="img/hero-promo.mp4" type="video/mp4">
         </video>
@@ -25,7 +42,7 @@
     </header>
 
     <!-- ПРЕИМУЩЕСТВА -->
-    <section class="section">
+    <section class="section" id="advantages">
         <div class="container">
             <h2 class="section-title">Что вы <span>получаете</span></h2>
             <p class="section-lead">Качественный и яркий свет фар для комфорта, безопасности и уверенности за рулём в любое время суток и при любых погодных условиях.</p>
@@ -51,7 +68,7 @@
     </section>
 
     <!-- УСЛУГИ -->
-    <section class="section">
+    <section class="section" id="services">
         <div class="container">
             <h2 class="section-title"><span>Услуги</span></h2>
             <div class="services-grid">
@@ -88,7 +105,7 @@
     </section>
 
     <!-- О ЛАБОРАТОРИИ -->
-    <section class="section gallery-section">
+    <section class="section gallery-section" id="portfolio">
         <div class="container">
             <h2 class="section-title">Портфолио FARALAB</h2>
             <div class="swiper faralab-swiper">
