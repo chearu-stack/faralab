@@ -64,7 +64,6 @@
             heroVideo.style.opacity = '0.5';
         };
 
-        heroVideo.addEventListener('playing', revealHeroVideo, { once: true });
         heroVideo.addEventListener('canplaythrough', revealHeroVideo, { once: true });
     };
 
