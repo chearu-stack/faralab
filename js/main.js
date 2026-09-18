@@ -61,7 +61,7 @@
         }
 
         const revealHeroVideo = () => {
-            heroVideo.style.opacity = '1';
+            heroVideo.style.opacity = '0.5';
         };
 
         heroVideo.addEventListener('playing', revealHeroVideo, { once: true });
@@ -95,6 +95,15 @@
         address.addEventListener('click', copyAddress);
     };
 
+    document.querySelectorAll('[role="button"]').forEach((button) => {
+        button.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                button.click();
+            }
+        });
+    });
+
     const initializeMobileMenu = () => {
         const menuToggle = document.querySelector('.hamburger-toggle');
         const navigation = document.querySelector('.mobile-nav-overlay');
@@ -104,12 +113,14 @@
 
         const closeMenu = () => {
             navigation.classList.remove('is-open');
+            menuToggle.classList.remove('is-open');
             menuToggle.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('menu-open');
         };
 
         menuToggle.addEventListener('click', () => {
             const isOpen = navigation.classList.toggle('is-open');
+            menuToggle.classList.toggle('is-open', isOpen);
             menuToggle.setAttribute('aria-expanded', String(isOpen));
             document.body.classList.toggle('menu-open', isOpen);
         });
@@ -117,14 +128,11 @@
         document.querySelectorAll('.desktop-nav a, .mobile-nav-overlay a').forEach((link) => {
             link.addEventListener('click', (event) => {
                 const targetSelector = link.getAttribute('href');
-                const normalizedSelector = targetSelector && targetSelector.startsWith('#')
-                    ? targetSelector
-                    : `#${targetSelector}`;
                 let targetElement = null;
 
                 try {
                     targetElement = targetSelector && targetSelector !== '/'
-                        ? document.querySelector(normalizedSelector)
+                        ? document.querySelector(targetSelector)
                         : null;
                 } catch (error) {
                     targetElement = null;

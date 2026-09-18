@@ -97,6 +97,18 @@ body {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+.hamburger-toggle.is-open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-toggle.is-open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
 .mobile-nav-overlay {
     display: none;
 }
@@ -118,7 +130,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.5;
+    opacity: 0;
     mix-blend-mode: screen;
     transition: opacity 1s ease-in-out;
     z-index: 1;
