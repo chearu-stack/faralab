@@ -553,8 +553,11 @@ body {
     }
 
     .mobile-nav-overlay {
-        position: fixed;
-        inset: 64px 0 0;
+        position: absolute;
+        top: 64px;
+        right: 0;
+        left: 0;
+        height: calc(100dvh - 64px);
         z-index: 1;
         display: flex;
         flex-direction: column;
